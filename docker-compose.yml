@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  gaming-shop-api:
+    container_name: gaming-shop-api
+    build:
+      context: .
+    ports:
+      - '1337:1337'
+    networks:
+      - gaming-shop-network
+    command: yarn develop
+
+networks:
+  gaming-shop-network:
+    external: true
