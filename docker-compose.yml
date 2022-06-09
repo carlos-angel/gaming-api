@@ -5,6 +5,8 @@ services:
     container_name: gaming-shop-api
     build:
       context: .
+    volumes:
+      - ./:/usr/src
     ports:
       - '1337:1337'
     networks:
