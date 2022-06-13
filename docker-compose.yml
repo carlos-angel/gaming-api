@@ -5,8 +5,10 @@ services:
     container_name: gaming-shop-api
     build:
       context: .
+      args:
+        UID: $U_ID
     volumes:
-      - ./:/usr/src
+      - ./:/appdata/www
     ports:
       - '1337:1337'
     networks:

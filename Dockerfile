@@ -1,13 +1,18 @@
 FROM node:14
 
-COPY ["package.json", "yarn.lock", "/usr/src/"]
+ARG UID
+RUN groupmod -g 1001 node \
+  && usermod -u 1001 -g 1001 node
 
-WORKDIR /usr/src
-
+RUN adduser -u ${UID} --disabled-password --gecos "" appuser
+RUN mkdir /home/appuser/.ssh
+RUN chown -R appuser:appuser /home/appuser/
+RUN echo "StrictHostKeyChecking no" >> /home/appuser/.ssh/config
 RUN npm i yarn && yarn install
 
-COPY [".", "/usr/src/"]
+RUN mkdir -p /appdata/www
+COPY ["package.json", "yarn.lock", "/appdata/www/"]
 
-EXPOSE 1337
+USER appuser
 
-CMD ["yarn", "develop"]
+WORKDIR /appdata/www
