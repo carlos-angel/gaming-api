@@ -1,18 +1,17 @@
-FROM node:14
+FROM node:14-alpine
 
-ARG UID
-RUN groupmod -g 1001 node \
-  && usermod -u 1001 -g 1001 node
+RUN mkdir -p /app
 
-RUN adduser -u ${UID} --disabled-password --gecos "" appuser
-RUN mkdir /home/appuser/.ssh
-RUN chown -R appuser:appuser /home/appuser/
-RUN echo "StrictHostKeyChecking no" >> /home/appuser/.ssh/config
-RUN npm i yarn && yarn install
+WORKDIR /app
 
-RUN mkdir -p /appdata/www
-COPY ["package.json", "yarn.lock", "/appdata/www/"]
+COPY package.json /app
 
-USER appuser
+RUN yarn install
 
-WORKDIR /appdata/www
+COPY . /app
+
+RUN yarn build
+
+EXPOSE 1337
+
+CMD [ "yarn", "develop" ]

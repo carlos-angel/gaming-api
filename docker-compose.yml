@@ -1,19 +1,14 @@
-version: '3.8'
+version: '3.5'
 
 services:
   gaming-shop-api:
     container_name: gaming-shop-api
     build:
       context: .
-      args:
-        UID: $U_ID
-    volumes:
-      - ./:/appdata/www
     ports:
       - '1337:1337'
     networks:
       - gaming-shop-network
-    command: yarn develop
 
 networks:
   gaming-shop-network:

@@ -19,22 +19,22 @@ help: ## Show this help message
 
 run: ## Start the containers
 	docker network create gaming-shop-network || true
-	U_ID=${UID} docker-compose up -d
+	docker-compose up -d
 
 stop: ## Stop the containers
-	U_ID=${UID} docker-compose stop
+	docker-compose stop
 
 restart: ## Restart the containers
 	$(MAKE) stop && $(MAKE) run
 
 build: ## Rebuilds all the containers
 	docker network create gaming-shop-network || true
-	U_ID=${UID} docker-compose build
+	docker-compose build
 
 # Backend commands
 yarn-install: ## Installs dependencies
-	U_ID=${UID} docker exec -it ${DOCKER_BE} yarn install
+	docker exec -it ${DOCKER_BE} yarn install
 # End backend commands
 
 ssh-be: ## ssh's into the be container
-	U_ID=${UID} docker exec -it ${DOCKER_BE} bash
+	docker exec -it ${DOCKER_BE} bash
